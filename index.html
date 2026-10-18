@@ -1,0 +1,472 @@
+
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chúc mừng 20/10 - Lớp 7A1 💗</title>
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;min-height:100vh;overflow:hidden;
+  font-family:Arial,sans-serif;color:white;
+  background:
+    radial-gradient(ellipse at 20% 15%,#ffd9eb,transparent 45%),
+    radial-gradient(ellipse at 90% 85%,#d72b82,transparent 50%),
+    linear-gradient(135deg,#ff8fbe,#ec4b96 55%,#a92770);
+}
+button,input{font:inherit}
+button{cursor:pointer}
+.glow{
+  position:fixed;width:180px;height:180px;border-radius:50%;
+  background:#fff6fa;opacity:.2;filter:blur(35px);
+  pointer-events:none
+}
+.g1{top:-70px;left:-40px}
+.g2{right:-70px;bottom:-60px;background:#ffb6dc}
+
+/* MÀN HÌNH MẬT KHẨU */
+#login{
+  position:fixed;inset:0;z-index:20;
+  display:flex;align-items:center;justify-content:center;
+  padding:20px;transition:opacity .45s
+}
+.glass{
+  width:100%;max-width:360px;padding:30px 23px;
+  text-align:center;border:1px solid #ffffffa6;
+  border-radius:27px;background:linear-gradient(140deg,#ffffff48,#ffffff14);
+  -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);
+  box-shadow:0 18px 45px #8f16453d,inset 0 1px 0 #ffffff70
+}
+.lock-icon{font-size:42px;margin-bottom:8px}
+.login-title{font-size:25px;margin:5px 0 9px}
+.login-sub{font-size:13px;line-height:1.7;color:#fff2f8}
+#password{
+  display:block;width:100%;margin:22px 0 12px;padding:14px 15px;
+  border:1px solid #ffffffa8;border-radius:15px;outline:none;
+  color:#8e2358;background:#ffffff35;text-align:center;font-size:15px
+}
+#password::placeholder{color:#fff4fa}
+#password:focus{border-color:white;background:#ffffff50}
+#openBtn{
+  width:100%;padding:13px;border:1px solid #ffffff90;border-radius:15px;
+  color:#a52260;font-weight:bold;background:linear-gradient(135deg,#fff,#ffe0ef);
+  box-shadow:0 5px 18px #8d12433b
+}
+#error{min-height:18px;margin:12px 0 0;font-size:12px;color:#fff4c8}
+#login.fade{opacity:0;pointer-events:none}
+
+/* CHỮ BAY GHÉP TIÊU ĐỀ */
+#stage{
+  position:fixed;inset:0;z-index:2;
+  display:flex;flex-direction:column;align-items:center;
+  justify-content:center;gap:13px;padding:20px;text-align:center;
+  opacity:0;pointer-events:none;transition:opacity .7s
+}
+#stage.show{opacity:1;pointer-events:auto}
+.line{
+  font-family:Georgia,serif;font-weight:bold;
+  text-shadow:0 3px 20px #d81c77;line-height:1.2;text-align:center
+}
+#l1{font-size:clamp(25px,6vw,48px)}
+#l2{font-size:clamp(40px,11vw,76px)}
+.slot{display:inline-block;opacity:0}
+.slot.space{width:.3em}
+.slot.ok{opacity:1;animation:pop .35s}
+@keyframes pop{from{transform:scale(1.3)}to{transform:scale(1)}}
+#hint{font-size:14px;color:#fff3d6;margin-top:8px}
+.main-btn{
+  border:1px solid #ffffffa0;border-radius:99px;padding:13px 25px;
+  color:white;font-weight:bold;background:#ffffff30;
+  -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)
+}
+.fly{
+  position:fixed;left:0;top:0;z-index:5;pointer-events:none;
+  font-family:Georgia,serif;font-weight:bold;
+  text-shadow:0 0 10px #ff1680;will-change:transform
+}
+
+/* CHỮ TRANG TRÍ BAY QUANH SAU KHI MỞ KHÓA */
+#ambient-letters{position:fixed;inset:0;z-index:3;pointer-events:none}
+.ambient-letter{
+  position:absolute;color:#fff4fa;font-family:Georgia,serif;font-weight:bold;
+  text-shadow:0 0 12px #ff1680,0 0 22px #ffb4d7;
+  animation:letter-drift ease-in-out infinite alternate;
+  will-change:transform
+}
+@keyframes letter-drift{
+  from{transform:translate3d(-8px,-10px,0) rotate(-8deg);opacity:.35}
+  to{transform:translate3d(12px,14px,0) rotate(10deg);opacity:.9}
+}
+
+/* ICON BAY LƠ LỬNG */
+#floating-icons{position:fixed;inset:0;pointer-events:none;z-index:1}
+.floating-icon{
+  position:fixed;bottom:-45px;pointer-events:none;opacity:0;
+  animation:float-up linear forwards;filter:drop-shadow(0 0 5px #fff5)
+}
+@keyframes float-up{
+  10%{opacity:.8}
+  85%{opacity:.7}
+  100%{transform:translate3d(var(--drift),-110vh,0) rotate(var(--rotation));opacity:0}
+}
+
+/* TRÁI TIM CHẠY THEO CHUỘT */
+#cursor-heart{
+  position:fixed;left:0;top:0;z-index:30;pointer-events:none;
+  font-size:23px;opacity:0;text-shadow:0 0 12px #ff1680;
+  transform:translate(-50%,-50%)
+}
+.mouse-heart{
+  position:fixed;z-index:29;pointer-events:none;
+  transform:translate(-50%,-50%);
+  animation:trail-up .85s ease-out forwards;
+  filter:drop-shadow(0 0 5px #ff1680)
+}
+@keyframes trail-up{
+  to{transform:translate(calc(-50% + var(--dx)),-45px) scale(.45);opacity:0}
+}
+
+/* THIỆP LIQUID GLASS */
+#card{
+  position:fixed;inset:0;z-index:10;
+  display:flex;align-items:center;justify-content:center;
+  padding:14px;overflow-y:auto;opacity:0;pointer-events:none;
+  transition:opacity .6s
+}
+#card.show{opacity:1;pointer-events:auto}
+.box{
+  width:100%;max-width:430px;margin:auto;text-align:center;padding:24px 19px;
+  border:1px solid #ffffffa8;border-radius:25px;
+  background:linear-gradient(145deg,#ffffff40,#ffffff17);
+  -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);
+  box-shadow:0 18px 45px #9d14543d,inset 0 1px 0 #ffffff80;
+  animation:appear .55s ease-out
+}
+@keyframes appear{
+  from{transform:translateY(12px) scale(.97)}to{transform:none}
+}
+.badge{
+  display:inline-block;padding:7px 12px;border-radius:99px;
+  background:#ffffffa0;color:#a21d60;font-size:10px;font-weight:bold
+}
+.big{font-size:34px;margin:12px 0 4px;animation:heartbeat 1.5s infinite}
+@keyframes heartbeat{
+  0%,100%{transform:scale(1)}12%{transform:scale(1.12)}24%{transform:scale(1)}
+}
+.t1{font-family:Georgia,serif;font-style:italic;margin:0;color:#fff1f8}
+.t2{
+  font-family:Georgia,serif;font-size:clamp(27px,7vw,36px);
+  margin:10px 0;color:#fff;text-shadow:0 2px 15px #e51c81
+}
+.orn{margin:12px 0;color:#ffe7f3}
+#msg{font-size:14px;line-height:1.8;margin:0;color:white}
+.wishes{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:17px 0}
+.w{
+  padding:12px 7px;border:1px solid #ffffff60;border-radius:15px;
+  background:#ffffff24;animation:appear .6s ease-out
+}
+.w i{display:block;font-style:normal;font-size:22px}
+.w b{display:block;font-size:12px;margin:6px 0;color:#fff3fa}
+.w span{font-size:11px;line-height:1.5}
+.quote{font-family:Georgia,serif;font-style:italic;line-height:1.6;font-size:14px;color:#fff2cc}
+.sign{margin-top:13px;font-style:italic;font-size:14px}
+
+/* TRÁI TIM BAY */
+.heart{
+  position:fixed;bottom:-30px;z-index:12;pointer-events:none;
+  animation:rise 3.5s linear forwards
+}
+@keyframes rise{to{transform:translateY(-110vh) rotate(25deg);opacity:0}}
+
+/* PHÁO HOA */
+.firework{
+  position:fixed;z-index:15;pointer-events:none;width:5px;height:5px;
+  border-radius:50%;background:#fff4cb;box-shadow:0 0 8px 3px #ffb4d9;
+  animation:firework-pop .8s ease-out forwards
+}
+@keyframes firework-pop{
+  0%{opacity:1;transform:translate(0,0) scale(.5)}
+  100%{opacity:0;transform:translate(var(--fx),var(--fy)) scale(.2)}
+}
+@media(max-width:400px){
+  .box{padding:20px 14px}
+  #msg{font-size:13px}
+}
+@media(prefers-reduced-motion:reduce){
+  .ambient-letter{animation:none}
+  .floating-icon{animation-duration:5s!important}
+}
+</style>
+</head>
+
+<body>
+<div class="glow g1"></div>
+<div class="glow g2"></div>
+<div id="floating-icons" aria-hidden="true"></div>
+<div id="ambient-letters" aria-hidden="true"></div>
+<div id="cursor-heart" aria-hidden="true">💗</div>
+
+<section id="login">
+  <form class="glass" id="loginForm">
+    <div class="lock-icon">💗</div>
+    <h1 class="login-title">Một lời chúc nhỏ</h1>
+    <p class="login-sub">Gửi riêng cho cả lớp 7A1 🌷<br>Nhập mật khẩu để mở món quà 20/10 nhé!</p>
+    <input id="password" type="password" placeholder="Nhập mật khẩu..."
+      autocomplete="off" aria-label="Nhập mật khẩu" required>
+    <button id="openBtn" type="submit">Mở lời chúc ✨</button>
+    <p id="error" role="status"></p>
+  </form>
+</section>
+
+<section id="stage">
+  <div class="line" id="l1"></div>
+  <div class="line" id="l2"></div>
+  <div id="hint">✦ Có một thông điệp đang chờ... ✦</div>
+  <button class="main-btn" id="decodeBtn">Giải mã 💌</button>
+</section>
+
+<section id="card">
+  <div class="box">
+    <span class="badge">20 · 10 &nbsp; NGÀY PHỤ NỮ VIỆT NAM</span>
+    <div class="big">💖</div>
+    <p class="t1">Gửi riêng cho cả lớp 7A1</p>
+    <h2 class="t2">7A1 THÂN YÊU</h2>
+    <div class="orn">❀ ❤ ❀</div>
+    <p id="msg"></p>
+    <div class="wishes">
+      <div class="w"><i>🌸</i><b>Luôn vui vẻ</b><span>Ngày nào cũng tràn ngập tiếng cười.</span></div>
+      <div class="w"><i>💖</i><b>Thật hạnh phúc</b><span>Luôn được mọi người yêu thương.</span></div>
+      <div class="w"><i>✨</i><b>Học tập tốt</b><span>Ngày càng tự tin và tiến bộ.</span></div>
+      <div class="w"><i>🌹</i><b>Gặp nhiều may mắn</b><span>Mọi điều tốt đẹp sẽ đến với bạn.</span></div>
+    </div>
+    <div class="quote">Chúc các bạn nữ 7A1 có một ngày 20/10 thật vui và đáng nhớ! 💗</div>
+    <div class="sign">— Tập thể lớp 7A1 🌷</div>
+  </div>
+</section>
+
+<script>
+const PASSWORD="cohuyenxinhgai";
+const $=id=>document.getElementById(id);
+const random=(a,b)=>Math.random()*(b-a)+a;
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+const intro="Nhân ngày 20/10, chúc các bạn nữ lớp 7A1 luôn vui vẻ, xinh đẹp, học tập tốt và gặp thật nhiều may mắn. Mong rằng mỗi ngày đến lớp chúng ta đều có thật nhiều tiếng cười và những kỉ niệm đẹp nhé! 🌸💗";
+
+let unlocked=false,decoding=false,animationId=0,heartsStarted=false;
+let mouseX=0,mouseY=0,lastTrail=0,trailEnabled=false;
+
+$("loginForm").addEventListener("submit",function(e){
+  e.preventDefault();
+  if($("password").value===PASSWORD){
+    unlocked=true;
+    $("login").classList.add("fade");
+    $("stage").classList.add("show");
+    startAmbientLetters();
+    trailEnabled=true;
+    $("password").blur();
+  }else{
+    $("error").textContent="Mật khẩu chưa đúng, thử lại nhé 💗";
+    $("password").value="";
+    $("password").focus();
+  }
+});
+
+/* TIÊU ĐỀ CHỮ BAY */
+const flyers=[];
+const pool="ABCDEFGHIKLMNOPQRSTUVXY0123456789";
+const colors=["#ffffff","#fff0f7","#ff6fae","#ffd9a8"];
+
+function buildLine(id,text){
+  for(const c of text){
+    const span=document.createElement("span");
+    span.className="slot"+(c===" "?" space":"");
+    span.textContent=c===" "?"\u00a0":c;
+    $(id).appendChild(span);
+    if(c!==" ")flyers.push({slot:span,char:c,real:true});
+  }
+}
+buildLine("l1","CHÚC MỪNG 20/10");
+buildLine("l2","LỚP 7A1");
+for(let i=0;i<12;i++)flyers.push({real:false});
+
+function makeFlyer(f){
+  const el=document.createElement("div");
+  el.className="fly";
+  el.textContent=pick(pool);
+  el.style.color=pick(colors);
+  el.style.fontSize=random(18,35)+"px";
+  document.body.appendChild(el);
+  Object.assign(f,{
+    el,x:random(0,innerWidth),y:random(0,innerHeight),
+    vx:random(-1.5,1.5),vy:random(-1.5,1.5),
+    angle:random(-90,90),state:"fly"
+  });
+}
+flyers.forEach(makeFlyer);
+
+function tick(){
+  let active=false;
+  for(const f of flyers){
+    if(f.state==="done")continue;
+    active=true;
+    if(f.state==="fly"){
+      f.x+=f.vx;f.y+=f.vy;f.angle+=.5;
+      if(f.x<0||f.x>innerWidth)f.vx*=-1;
+      if(f.y<0||f.y>innerHeight)f.vy*=-1;
+    }else if(f.state==="go"){
+      f.x+=(f.tx-f.x)*.1;
+      f.y+=(f.ty-f.y)*.1;
+      f.angle*=.85;
+      if(Math.hypot(f.tx-f.x,f.ty-f.y)<2){
+        f.state="done";f.el.remove();f.slot.classList.add("ok");
+      }
+    }
+    if(f.el)f.el.style.transform=
+      `translate(${f.x}px,${f.y}px) translate(-50%,-50%) rotate(${f.angle}deg)`;
+  }
+  if(active)animationId=requestAnimationFrame(tick);
+  else animationId=0;
+}
+
+function decode(){
+  if(!unlocked||decoding)return;
+  decoding=true;
+  $("decodeBtn").hidden=true;
+  $("hint").textContent="Các chữ cái đang tìm về nhau... ✨";
+
+  for(const f of flyers){
+    if(!f.real){f.state="done";f.el.remove();continue;}
+    const r=f.slot.getBoundingClientRect();
+    f.tx=r.left+r.width/2;f.ty=r.top+r.height/2;
+    f.el.textContent=f.char;f.state="go";
+  }
+  if(animationId)cancelAnimationFrame(animationId);
+  tick();
+
+  const check=()=>{
+    if(flyers.every(f=>f.state==="done")){
+      $("hint").textContent="Giải mã thành công 💖";
+      firework(innerWidth/2,innerHeight/2);
+      setTimeout(showCard,650);
+    }else setTimeout(check,100);
+  };
+  setTimeout(check,250);
+}
+$("decodeBtn").addEventListener("click",decode);
+
+addEventListener("resize",()=>{
+  if(!decoding)flyers.forEach(f=>{
+    if(f.el){f.x=Math.min(f.x,innerWidth);f.y=Math.min(f.y,innerHeight);}
+  });
+});
+
+/* CHỮ TRANG TRÍ VẪN BAY SAU KHI NHẬP MẬT KHẨU */
+function startAmbientLetters(){
+  const container=$("ambient-letters");
+  const symbols=["A","7","1","✦","♡","✧","20/10","♥"];
+  for(let i=0;i<14;i++){
+    const el=document.createElement("span");
+    el.className="ambient-letter";
+    el.textContent=pick(symbols);
+    el.style.left=random(3,91)+"%";
+    el.style.top=random(8,88)+"%";
+    el.style.fontSize=random(14,27)+"px";
+    el.style.animationDuration=random(2.5,5)+"s";
+    el.style.animationDelay=random(-4,0)+"s";
+    container.appendChild(el);
+  }
+}
+
+/* ICON BAY LƠ LỬNG */
+const floatingSymbols=["💗","💕","🌸","✨","🌷","💖","⭐"];
+function createFloatingIcon(){
+  if(document.hidden||document.querySelectorAll(".floating-icon").length>=8)return;
+  const icon=document.createElement("span");
+  icon.className="floating-icon";
+  icon.textContent=pick(floatingSymbols);
+  icon.style.left=random(3,95)+"vw";
+  icon.style.fontSize=random(15,25)+"px";
+  icon.style.animationDuration=random(7,11)+"s";
+  icon.style.setProperty("--drift",random(-55,55)+"px");
+  icon.style.setProperty("--rotation",random(-90,90)+"deg");
+  $("floating-icons").appendChild(icon);
+  setTimeout(()=>icon.remove(),11500);
+}
+for(let i=0;i<4;i++)setTimeout(createFloatingIcon,i*500);
+setInterval(createFloatingIcon,1500);
+
+/* TRÁI TIM CHẠY THEO CHUỘT */
+const cursor=$("cursor-heart");
+addEventListener("pointermove",e=>{
+  mouseX=e.clientX;mouseY=e.clientY;
+  if(!trailEnabled)return;
+
+  cursor.style.left=mouseX+"px";
+  cursor.style.top=mouseY+"px";
+  cursor.style.opacity="1";
+
+  const now=performance.now();
+  if(now-lastTrail<100)return;
+  lastTrail=now;
+
+  const heart=document.createElement("span");
+  heart.className="mouse-heart";
+  heart.textContent=pick(["💗","💕","♥","💖"]);
+  heart.style.left=mouseX+"px";
+  heart.style.top=mouseY+"px";
+  heart.style.fontSize=random(12,20)+"px";
+  heart.style.setProperty("--dx",random(-20,20)+"px");
+  document.body.appendChild(heart);
+  setTimeout(()=>heart.remove(),900);
+});
+addEventListener("pointerout",e=>{
+  if(!e.relatedTarget)cursor.style.opacity="0";
+});
+
+/* TRÁI TIM BAY MỘT ĐỢT KHI HIỆN THIỆP */
+function heartShower(){
+  const hearts=["❤","💖","💗","💕","🌸","🌹"];
+  for(let i=0;i<18;i++){
+    setTimeout(()=>{
+      const h=document.createElement("span");
+      h.className="heart";h.textContent=pick(hearts);
+      h.style.left=random(4,94)+"vw";
+      h.style.fontSize=random(16,27)+"px";
+      h.style.animationDuration=random(3,4.5)+"s";
+      document.body.appendChild(h);
+      setTimeout(()=>h.remove(),5000);
+    },i*160);
+  }
+}
+
+function showCard(){
+  $("stage").classList.remove("show");
+  $("card").classList.add("show");
+  let i=0;
+  function type(){
+    $("msg").textContent=intro.slice(0,i);
+    if(i<intro.length){i++;setTimeout(type,25);}
+    else if(!heartsStarted){heartsStarted=true;heartShower();}
+  }
+  type();
+}
+
+/* PHÁO HOA */
+function firework(x,y){
+  const palette=["#fff1b8","#ffffff","#ffb5d7","#ffc6e6"];
+  for(let i=0;i<12;i++){
+    const p=document.createElement("span");
+    p.className="firework";
+    p.style.left=x+"px";p.style.top=y+"px";
+    p.style.background=pick(palette);
+    const angle=Math.PI*2*i/12,distance=random(28,75);
+    p.style.setProperty("--fx",Math.cos(angle)*distance+"px");
+    p.style.setProperty("--fy",Math.sin(angle)*distance+"px");
+    document.body.appendChild(p);
+    setTimeout(()=>p.remove(),900);
+  }
+}
+$("card").addEventListener("click",e=>firework(e.clientX,e.clientY));
+</script>
+</body>
+</html>
